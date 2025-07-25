@@ -1,0 +1,2 @@
+from bank_statement_data import bankstatements
+print(bankstatements)

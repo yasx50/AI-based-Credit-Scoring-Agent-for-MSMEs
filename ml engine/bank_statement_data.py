@@ -8,7 +8,7 @@ from kagglehub import KaggleDatasetAdapter
 file_path = "bankstatements.csv"
 
 # Load the latest version
-df = kagglehub.load_dataset(
+bankstatements= kagglehub.load_dataset(
   KaggleDatasetAdapter.PANDAS,
   "abutalhadmaniyar/bank-statements-dataset",
   file_path,

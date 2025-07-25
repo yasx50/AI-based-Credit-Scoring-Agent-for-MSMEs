@@ -1,6 +1,3 @@
-def main():
-    print("Hello from ml-engine!")
+from bank_statement_data import bankstatements
 
-
-if __name__ == "__main__":
-    main()
+print(bankstatements.head())
