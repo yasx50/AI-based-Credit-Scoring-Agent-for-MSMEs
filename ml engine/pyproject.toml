@@ -7,6 +7,9 @@ requires-python = ">=3.13"
 dependencies = [
     "faker>=37.4.2",
     "kagglehub>=0.3.12",
+    "matplotlib>=3.10.3",
     "numpy>=2.3.2",
     "pandas>=2.3.1",
+    "scikit-learn",
+    "seaborn>=0.13.2",
 ]
