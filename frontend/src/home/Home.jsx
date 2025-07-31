@@ -376,7 +376,7 @@ const Home = () => {
 
               <div className="bg-white/10 backdrop-blur-sm border border-white/20 rounded-2xl p-8 text-center hover:bg-white/15 transition-all duration-300">
                 <div className="w-20 h-20 bg-gradient-to-r from-green-500 to-blue-500 rounded-full flex items-center justify-center mx-auto mb-6">
-                  <Brain className="w-10 h-10 text-white" />
+                  <Users className="w-10 h-10 text-white" />
                 </div>
                 <h3 className="text-2xl font-bold text-white mb-2">Yash Yadav</h3>
                 <p className="text-green-400 font-semibold mb-4">Software Developer</p>
