@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import axios from 'axios';
 import { TrendingUp, Calculator, Shield, Brain, CheckCircle, AlertCircle, ExternalLink, FileText, DollarSign, Database, Award, Zap } from 'lucide-react';
 
 const fields = [
@@ -31,18 +32,57 @@ const EnhancedFinancialForm = () => {
     setError(null);
     setResult(null);
 
-    // Simulate API call
-    setTimeout(() => {
-      setResult({
-        assessment: {
-          credit_score: 78,
-          risk_category: 'Medium',
-          risk_level: 'Acceptable',
-          recommendation: 'Approve with standard terms'
-        }
+    try {
+      // Get API base URL from environment variables
+      const apiBaseUrl = import.meta.env.VITE_API_BASE_URL || 'http://127.0.0.1:8000';
+      
+      // Prepare payload for API
+      const payload = {
+        average_monthly_balance: parseFloat(formData['Average Monthly Balance']) || 0,
+        number_of_transactions: parseInt(formData['Number of Transactions']) || 0,
+        number_of_gst_paid_transactions: parseInt(formData['Number of GST-paid Transactions']) || 0,
+        debt_to_capital: parseFloat(formData['Debt to Capital']) || 0,
+        operating_profit_margins: parseFloat(formData['Operating Profit Margins']) || 0,
+        use_of_overdraft: formData['Use of Overdraft'] === true || formData['Use of Overdraft'] === 'true',
+        net_working_capital_days: parseInt(formData['Net Working Capital Days']) || 0,
+        year_on_year_sales_growth: parseFloat(formData['Year on Year Sales Growth']) || 0,
+        emi_missed_count: parseInt(formData['EMI Missed Count']) || 0,
+        utility_bill_default: formData['Utility Bill Default on Payment Date'] === true || formData['Utility Bill Default on Payment Date'] === 'true',
+      };
+
+      console.log('Sending payload:', payload);
+
+      // Make API call
+      const response = await axios.post(`${apiBaseUrl}/predict`, payload, {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        timeout: 30000, // 30 second timeout
       });
+
+      console.log('API Response:', response.data);
+      setResult(response.data);
+
+    } catch (err) {
+      console.error('API Error:', err);
+      
+      let errorMessage = 'Failed to fetch result. Please try again.';
+      
+      if (err.response) {
+        // Server responded with error status
+        errorMessage = `Server Error: ${err.response.status} - ${err.response.data?.message || err.response.statusText}`;
+      } else if (err.request) {
+        // Request was made but no response received
+        errorMessage = 'No response from server. Please check if the API is running.';
+      } else if (err.code === 'ECONNABORTED') {
+        // Request timeout
+        errorMessage = 'Request timeout. Please try again.';
+      }
+      
+      setError(errorMessage);
+    } finally {
       setLoading(false);
-    }, 2000);
+    }
   };
 
   const getScoreColor = (score) => {
